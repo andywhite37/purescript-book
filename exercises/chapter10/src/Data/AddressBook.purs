@@ -2,12 +2,10 @@ module Data.AddressBook where
 
 import Prelude
 
--- ANCHOR: import
 import Data.Argonaut (class DecodeJson, class EncodeJson)
 import Data.Argonaut.Decode.Generic.Rep (genericDecodeJson)
 import Data.Argonaut.Encode.Generic.Rep (genericEncodeJson)
 import Data.Generic.Rep (class Generic)
--- ANCHOR_END: import
 import Data.Generic.Rep.Show (genericShow)
 
 type Address
@@ -25,12 +23,10 @@ data PhoneType
   | CellPhone
   | OtherPhone
 
--- ANCHOR: PhoneType_generic
 derive instance genericPhoneType :: Generic PhoneType _
 
 instance encodeJsonPhoneType :: EncodeJson PhoneType where encodeJson = genericEncodeJson
 instance decodeJsonPhoneType :: DecodeJson PhoneType where decodeJson = genericDecodeJson
--- ANCHOR_END: PhoneType_generic
 instance showPhoneType       :: Show       PhoneType where show       = genericShow
 
 type PhoneNumber
