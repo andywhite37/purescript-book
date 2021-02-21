@@ -1,13 +1,12 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
-
 import Data.Foldable (foldMap, foldl, foldr)
 import Data.Hashable (hash)
 import Data.List (List(..), (:))
 import Effect (Effect)
 import Partial.Unsafe (unsafePartial)
+import Test.MySolutions (Complex(..), Extended(..), Hour(..), Multiply(..), NonEmpty(..), OneMore(..), Point(..), Self(..), Shape(..), act, arrayHasDuplicates, dedupShapes, dedupShapesFast, unsafeMaximum)
 import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
@@ -16,14 +15,14 @@ main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Show Me" do
       test "Exercise - Show Point" do
         Assert.equal "(1.0, 2.0)"
           $ show
-          $ Point {x: 1.0, y: 2.0}
+          $ Point { x: 1.0, y: 2.0 }
     suite "Exercise Group - Common Type Classes" do
-      let cpx real imaginary = Complex {real, imaginary}
+      let
+        cpx real imaginary = Complex { real, imaginary }
       suite "Exercise - Show Complex" do
         test "Show" do
           Assert.equal "1.0+2.0i"
@@ -40,14 +39,20 @@ main =
         test "not equal" do
           Assert.expectFailure "should not be equal"
             $ Assert.equal (cpx 5.0 2.0)
-              $ cpx 1.0 2.0
+            $ cpx 1.0 2.0
       suite "Exercise - Semiring Complex" do
         test "add" do
           Assert.equal (cpx 4.0 6.0)
             $ add (cpx 1.0 2.0) (cpx 3.0 4.0)
+        test "add 0" do
+          Assert.equal (cpx 4.0 6.0)
+            $ add (cpx 4.0 6.0) (zero)
         test "multiply" do
           Assert.equal (cpx (-5.0) 10.0)
             $ mul (cpx 1.0 2.0) (cpx 3.0 4.0)
+        test "multiply 1" do
+          Assert.equal (cpx (5.0) 7.0)
+            $ mul (cpx 5.0 7.0) (one)
       suite "Exercise - Ring Complex" do
         test "subtract" do
           Assert.equal (cpx 2.0 3.0)
@@ -55,16 +60,20 @@ main =
       suite "Exercise - Show Shape" do
         test "circle" do
           Assert.equal "(Circle (1.0, 2.0) 3.0)"
-            $ show $ Circle (Point {x: 1.0, y: 2.0}) 3.0
+            $ show
+            $ Circle (Point { x: 1.0, y: 2.0 }) 3.0
         test "rectangle" do
           Assert.equal "(Rectangle (1.0, 2.0) 3.0 4.0)"
-            $ show $ Rectangle (Point {x: 1.0, y: 2.0}) 3.0 4.0
+            $ show
+            $ Rectangle (Point { x: 1.0, y: 2.0 }) 3.0 4.0
         test "line" do
           Assert.equal "(Line (1.0, 2.0) (3.0, 4.0))"
-            $ show $ Line (Point {x: 1.0, y: 2.0}) (Point {x: 3.0, y: 4.0})
+            $ show
+            $ Line (Point { x: 1.0, y: 2.0 }) (Point { x: 3.0, y: 4.0 })
         test "text" do
           Assert.equal "(Text (1.0, 2.0) \"Hello\")"
-            $ show $ Text (Point {x: 1.0, y: 2.0}) "Hello"
+            $ show
+            $ Text (Point { x: 1.0, y: 2.0 }) "Hello"
     suite "Exercise Group - Constraints and Dependencies" do
       suite "Exercise - Eq for NonEmpty" do
         test "NonEmpty equals" do
@@ -136,15 +145,16 @@ main =
             $ OneMore 1 (2 : 3 : Nil)
       let
         withDups =
-          [ Circle (Point {x: 1.0, y: 2.0}) 3.0
-          , Circle (Point {x: 3.0, y: 2.0}) 3.0
-          , Circle (Point {x: 1.0, y: 2.0}) 3.0
-          , Circle (Point {x: 2.0, y: 2.0}) 3.0
+          [ Circle (Point { x: 1.0, y: 2.0 }) 3.0
+          , Circle (Point { x: 3.0, y: 2.0 }) 3.0
+          , Circle (Point { x: 1.0, y: 2.0 }) 3.0
+          , Circle (Point { x: 2.0, y: 2.0 }) 3.0
           ]
+
         noDups =
-          [ Circle (Point {x: 1.0, y: 2.0}) 3.0
-          , Circle (Point {x: 3.0, y: 2.0}) 3.0
-          , Circle (Point {x: 2.0, y: 2.0}) 3.0
+          [ Circle (Point { x: 1.0, y: 2.0 }) 3.0
+          , Circle (Point { x: 3.0, y: 2.0 }) 3.0
+          , Circle (Point { x: 2.0, y: 2.0 }) 3.0
           ]
       test "Exercise - dedupShapes" do
         Assert.equal noDups
@@ -251,7 +261,6 @@ main =
             $ hash
             $ Hour 14
 
--}
 runChapterExamples :: TestSuite
 runChapterExamples =
   test "Todo for book maintainers - Add tests for chapter examples" do
